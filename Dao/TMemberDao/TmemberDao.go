@@ -33,6 +33,8 @@ func makeMemberTable() bool {
 	} else {
 		if !db.HasTable(&TMemberDao{}) {
 			db.AutoMigrate(&TMemberDao{})
+		} else {
+			return true
 		}
 	}
 	if db.HasTable(&TMemberDao{}) {

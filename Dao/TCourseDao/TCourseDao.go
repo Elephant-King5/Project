@@ -51,6 +51,8 @@ func makeCourseTable() bool {
 	} else {
 		if !db.HasTable(&TCourseDao{}) {
 			db.AutoMigrate(&TCourseDao{})
+		} else {
+			return true
 		}
 	}
 	if db.HasTable(&TCourseDao{}) {
@@ -298,6 +300,7 @@ func UnbindTeacherIDOfCourse(courseId string, teacherID string) Types.ErrNo {
 		return Types.OK
 	}
 }
+
 // UnsafeUnbindTeacherIDOfCourse 将ID对应的course的执教教师ID解绑
 func UnsafeUnbindTeacherIDOfCourse(courseId string) Types.ErrNo {
 	db, err := DBAccessor.MySqlInit()
@@ -332,6 +335,7 @@ func UnsafeUnbindTeacherIDOfCourse(courseId string) Types.ErrNo {
 		return Types.OK
 	}
 }
+
 // UnsafeUpdateCourseByID 根据CourseID更新对应课程的信息(不对是否已经绑定做检查)
 func UnsafeUpdateCourseByID(courseID string, course Types.TCourse) Types.ErrNo {
 	db, err := DBAccessor.MySqlInit()

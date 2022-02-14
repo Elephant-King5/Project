@@ -31,6 +31,8 @@ func makeUserTable() bool {
 	} else {
 		if !db.HasTable(&UserDao{}) {
 			db.AutoMigrate(&UserDao{})
+		} else {
+			return true
 		}
 	}
 	if db.HasTable(&UserDao{}) {

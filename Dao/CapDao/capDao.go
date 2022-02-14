@@ -31,6 +31,8 @@ func makeCapTable() bool {
 	} else {
 		if !db.HasTable(&CapDao{}) {
 			db.AutoMigrate(&CapDao{})
+		} else {
+			return true
 		}
 	}
 	if db.HasTable(&CapDao{}) {
