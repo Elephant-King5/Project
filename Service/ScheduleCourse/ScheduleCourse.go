@@ -2,7 +2,7 @@ package ScheduleCourse
 
 import (
 	"Project1/Types"
-	"math"
+	"fmt"
 )
 
 type node struct {
@@ -21,27 +21,29 @@ var e1 []node
 var tot = 1
 
 func dinit() {
+	//fmt.Println("dinit")
 	head = make([]int, n+5, n+5)
 	cur = make([]int, n+5, n+5)
 	dep = make([]int, n+5, n+5)
-	e = make([]node, m+5, m+5)
-	e1 = make([]node, m+5, m+5)
+	e = make([]node, m, m)
+	e1 = make([]node, m, m)
 }
 func copy1() {
+	//fmt.Println("copy")
 	copy(e1, e)
 }
 func addEdge(u int, v int) {
+	//fmt.Println("add edge ",u," ",v)
 	tot++
-	e[tot].val = 1
-	e[tot].net = head[u]
-	e[tot].to = v
+	e[tot] = node{v, head[u], 1}
+	head[u] = tot
 	tot++
-	e[tot].val = 0
-	e[tot].net = head[v]
-	e[tot].to = u
+	e[tot] = node{u, head[v], 0}
+	head[v] = tot
 }
 func bfs() bool {
-	for i := 0; i <= n; i++ {
+	//fmt.Println("bfs")
+	for i := 2; i <= n; i++ {
 		dep[i] = 0
 	}
 	dep[1] = 1
@@ -49,7 +51,7 @@ func bfs() bool {
 	var queue []int = make([]int, m, m)
 	var st = 0
 	var en = 1
-	queue[0] = st
+	queue[0] = 1
 	for st < en {
 		var k = queue[st]
 		st++
@@ -62,18 +64,28 @@ func bfs() bool {
 				}
 				queue[en] = v
 				en++
+				cur[v] = head[v]
 			}
 		}
 	}
 	return false
 }
+func testBfs() {
+	fmt.Println("test Bfs")
+	for i := 1; i <= n; i++ {
+		fmt.Print(dep[i])
+		fmt.Println(" ")
+	}
+	fmt.Println()
+}
 func min(a int, b int) int {
 	if a > b {
-		return a
+		return b
 	}
-	return b
+	return a
 }
 func dfs(x int, sum int) int {
+	//fmt.Println("dfs ", x, " ", sum)
 	if x == n {
 		return sum
 	}
@@ -99,10 +111,10 @@ func dfs(x int, sum int) int {
 }
 func dinic() {
 	for bfs() {
-		dfs(1, math.MaxInt32)
+		dfs(1, m)
 	}
 }
-func Schedule(request Types.ScheduleCourseRequest) Types.ScheduleCourseResponse {
+func Schedule(request *Types.ScheduleCourseRequest) Types.ScheduleCourseResponse {
 	var res Types.ScheduleCourseResponse
 	res.Code = Types.OK
 	res.Data = make(map[string]string)
@@ -129,6 +141,9 @@ func Schedule(request Types.ScheduleCourseRequest) Types.ScheduleCourseResponse 
 		id1++
 	}
 	n = id1 + id2
+	m *= 2
+	m += 5
+	m += 2 * n
 	dinit()
 	id1--
 	id2--
@@ -141,7 +156,7 @@ func Schedule(request Types.ScheduleCourseRequest) Types.ScheduleCourseResponse 
 	for i := 2; i <= id1+1; i++ {
 		addEdge(1, i)
 	}
-	for j := id1 + 2; j <= n; j++ {
+	for j := id1 + 2; j < n; j++ {
 		addEdge(j, n)
 	}
 	copy1()
