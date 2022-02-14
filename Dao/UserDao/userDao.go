@@ -58,7 +58,7 @@ func InsertUser(userid string, password string) Types.ErrNo {
 			} else {
 				// 如果建表失败，停4s并输出提示信息
 				time.Sleep(time.Duration(4))
-				fmt.Println("Something happened when trying to establish the table--'courses'.Please check the database.")
+				fmt.Println("Something happened when trying to establish the table--'users'.Please check the database.")
 			}
 		}
 		var user UserDao
@@ -87,7 +87,7 @@ func CheckUser(userid string, password string) (bool, Types.ErrNo) {
 			} else {
 				// 如果建表失败，停4s并输出提示信息
 				time.Sleep(time.Duration(4))
-				fmt.Println("Something happened when trying to establish the table--'courses'.Please check the database.")
+				fmt.Println("Something happened when trying to establish the table--'users'.Please check the database.")
 			}
 		}
 		var user UserDao
@@ -121,7 +121,7 @@ func UpdatePassword(userid string, password string) Types.ErrNo {
 			} else {
 				// 如果建表失败，停4s并输出提示信息
 				time.Sleep(time.Duration(4))
-				fmt.Println("Something happened when trying to establish the table--'courses'.Please check the database.")
+				fmt.Println("Something happened when trying to establish the table--'users'.Please check the database.")
 			}
 		}
 		var user UserDao
